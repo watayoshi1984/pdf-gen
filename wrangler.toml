@@ -4,9 +4,10 @@ compatibility_flags = ["nodejs_compat"]
 
 [build]
 command = "npm run build"
+output_directory = "out"
 
 [site]
-bucket = ".next"
+bucket = "out"
 
 [build.upload]
 format = "service-worker" 
