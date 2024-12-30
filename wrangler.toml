@@ -1,12 +1,12 @@
 name = "pdf-gen"
 compatibility_date = "2023-12-01"
 compatibility_flags = ["nodejs_compat"]
-main = "workers-site/index.js"
 
 [build]
 command = "npm run build"
 
 [site]
-bucket = ".next/static"
+bucket = ".next"
 
-pages_build_output_dir = ".next/static" 
+[build.upload]
+format = "service-worker" 
