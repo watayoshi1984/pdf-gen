@@ -7,14 +7,18 @@ import { FormContent } from '../components/FormContent'
 import { PreviewDialog } from '../components/PreviewDialog'
 import { EmailDialog } from '../components/EmailDialog'
 
+interface FormData {
+  [key: string]: any
+}
+
 export default function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [isPreviewOpen, setIsPreviewOpen] = useState(false)
   const [isEmailOpen, setIsEmailOpen] = useState(false)
-  const [formData, setFormData] = useState({})
+  const [formData, setFormData] = useState<FormData>({})
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen)
-  const openPreview = (data) => {
+  const openPreview = (data: FormData) => {
     setFormData(data)
     setIsPreviewOpen(true)
   }

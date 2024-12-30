@@ -1,45 +1,73 @@
 'use client'
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog'
-import { Button } from './ui/button'
-import { ScrollArea } from './ui/scroll-area'
-import { generatePDF } from '../utils/pdfGenerator'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { generatePDF } from './PDFGenerator'
+import { useState } from 'react'
 
-export function PreviewDialog({ isOpen, onClose, formData, onEmailClick }) {
+interface PreviewDialogProps {
+  isOpen: boolean
+  onClose: () => void
+  formData: Record<string, string>
+  onEmailClick: () => void
+}
+
+export function PreviewDialog({ isOpen, onClose, formData, onEmailClick }: PreviewDialogProps) {
+  const [isGenerating, setIsGenerating] = useState(false)
+
   const handleDownload = async () => {
     try {
+      setIsGenerating(true)
       const pdfBlob = await generatePDF(formData)
-      const pdfUrl = URL.createObjectURL(pdfBlob)
-      const link = document.createElement('a')
-      link.href = pdfUrl
-      link.download = 'form-data.pdf'
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      URL.revokeObjectURL(pdfUrl)
+      const url = URL.createObjectURL(pdfBlob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'form.pdf'
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
     } catch (error) {
-      console.error('Error generating PDF:', error)
-      alert('PDFの生成中にエラーが発生しました。もう一度お試しください。')
+      console.error('Failed to generate PDF:', error)
+    } finally {
+      setIsGenerating(false)
     }
   }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="max-w-4xl">
         <DialogHeader>
-          <DialogTitle className="text-lg sm:text-xl">プレビュー</DialogTitle>
+          <DialogTitle>プレビュー</DialogTitle>
         </DialogHeader>
-        <ScrollArea className="mt-4 max-h-[60vh]">
-          {Object.entries(formData).map(([key, value]) => (
-            <p key={key} className="mb-2 text-sm sm:text-base">
-              <strong>{key}:</strong> {value}
-            </p>
-          ))}
+        <ScrollArea className="h-[60vh] rounded-md border p-4">
+          <div className="space-y-4">
+            {Object.entries(formData).map(([key, value]) => (
+              <div key={key} className="grid grid-cols-3 gap-4">
+                <div className="font-medium">{key}</div>
+                <div className="col-span-2">{value}</div>
+              </div>
+            ))}
+          </div>
         </ScrollArea>
-        <div className="mt-6 flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-2">
-          <Button onClick={handleDownload} className="w-full sm:w-auto text-sm sm:text-base">PDFダウンロード</Button>
-          <Button onClick={onEmailClick} className="w-full sm:w-auto text-sm sm:text-base">メールで共有</Button>
-        </div>
+        <DialogFooter className="flex justify-between">
+          <div className="flex gap-2">
+            <Button onClick={handleDownload} disabled={isGenerating}>
+              {isGenerating ? 'PDFを生成中...' : 'PDFダウンロード'}
+            </Button>
+            <Button onClick={onEmailClick}>メール送信</Button>
+          </div>
+          <Button variant="outline" onClick={onClose}>
+            閉じる
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )

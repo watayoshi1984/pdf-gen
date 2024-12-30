@@ -1,7 +1,11 @@
 import { Menu } from 'lucide-react'
-import { Button } from './ui/button'
+import { Button } from '@/components/ui/button'
 
-export function AppBar({ onMenuClick }) {
+interface AppBarProps {
+  onMenuClick: () => void
+}
+
+export function AppBar({ onMenuClick }: AppBarProps) {
   return (
     <header className="bg-white dark:bg-gray-800 shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

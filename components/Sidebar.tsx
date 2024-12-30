@@ -1,44 +1,50 @@
 import { X } from 'lucide-react'
-import { Button } from './ui/button'
+import { Button } from '@/components/ui/button'
 
-export function Sidebar({ isOpen, onClose }) {
+interface SidebarProps {
+  isOpen: boolean
+  onClose: () => void
+}
+
+export function Sidebar({ isOpen, onClose }: SidebarProps) {
   return (
     <>
       {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" onClick={onClose}></div>
-      )}
-      <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        } transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0`}
-      >
-        <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-white">メニュー</h2>
-          <Button variant="ghost" size="icon" onClick={onClose} className="lg:hidden">
-            <X className="h-6 w-6" />
-            <span className="sr-only">サイドバーを閉じる</span>
-          </Button>
+        <div className="fixed inset-0 z-50 flex">
+          <div className="fixed inset-0 bg-black/80" onClick={onClose} />
+          <div className="relative flex w-80 max-w-sm flex-1 flex-col bg-white dark:bg-gray-800">
+            <div className="flex items-center justify-between p-4 border-b">
+              <h2 className="text-lg font-semibold">メニュー</h2>
+              <Button variant="ghost" size="icon" onClick={onClose}>
+                <X className="h-6 w-6" />
+                <span className="sr-only">閉じる</span>
+              </Button>
+            </div>
+            <div className="flex-1 overflow-auto p-4">
+              <nav className="space-y-2">
+                <a
+                  href="#"
+                  className="block px-4 py-2 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  ホーム
+                </a>
+                <a
+                  href="#"
+                  className="block px-4 py-2 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  フォーム一覧
+                </a>
+                <a
+                  href="#"
+                  className="block px-4 py-2 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  設定
+                </a>
+              </nav>
+            </div>
+          </div>
         </div>
-        <nav className="mt-5">
-          <ul className="space-y-2">
-            <li>
-              <a href="#" className="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                使い方
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                Q&A
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                お問い合わせ
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </aside>
+      )}
     </>
   )
 }

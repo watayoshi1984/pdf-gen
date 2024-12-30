@@ -1,53 +1,56 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from './ui/button'
-import { Input } from './ui/input'
-import { Label } from './ui/label'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 
 const formFields = [
-  { id: 'name', label: '氏名' },
-  { id: 'age', label: '年齢' },
-  { id: 'address', label: '住所' },
-  { id: 'phone', label: '電話番号' },
-  { id: 'email', label: 'メールアドレス' },
-  { id: 'occupation', label: '職業' },
-  { id: 'hobby', label: '趣味' },
-  { id: 'favoriteFood', label: '好きな食べ物' },
-  { id: 'weekend', label: '休日の過ごし方' },
-  { id: 'goal', label: '将来の目標' },
+  { id: 'name', label: '名前', type: 'text' },
+  { id: 'email', label: 'メールアドレス', type: 'email' },
+  { id: 'phone', label: '電話番号', type: 'tel' },
+  { id: 'address', label: '住所', type: 'text' },
+  { id: 'birthdate', label: '生年月日', type: 'date' },
+  { id: 'occupation', label: '職業', type: 'text' },
+  { id: 'company', label: '会社名', type: 'text' },
+  { id: 'department', label: '部署', type: 'text' },
+  { id: 'position', label: '役職', type: 'text' },
 ]
 
-export function FormContent({ onPreview }) {
-  const [formData, setFormData] = useState({})
+interface FormContentProps {
+  onPreview: (data: Record<string, string>) => void
+}
 
-  const handleInputChange = (e) => {
+export function FormContent({ onPreview }: FormContentProps) {
+  const [formData, setFormData] = useState<Record<string, string>>({})
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target
     setFormData((prev) => ({ ...prev, [id]: value }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     onPreview(formData)
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {formFields.map((field) => (
           <div key={field.id} className="space-y-2">
-            <Label htmlFor={field.id} className="text-sm sm:text-base">{field.label}</Label>
+            <Label htmlFor={field.id}>{field.label}</Label>
             <Input
               id={field.id}
+              type={field.type}
               value={formData[field.id] || ''}
               onChange={handleInputChange}
               required
-              className="w-full text-sm sm:text-base"
             />
           </div>
         ))}
       </div>
-      <Button type="submit" className="w-full sm:w-auto text-sm sm:text-base">プレビュー</Button>
+      <Button type="submit" className="w-full">プレビュー</Button>
     </form>
   )
 }
