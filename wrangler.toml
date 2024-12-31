@@ -9,4 +9,4 @@ NODE_VERSION = "18"
 NEXT_TELEMETRY_DISABLED = "1"
 
 [site]
-bucket = "out" 
+bucket = "dist/out" 
