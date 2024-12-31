@@ -12,6 +12,8 @@ const nextConfig = {
     unoptimized: true,
   },
   trailingSlash: true,
+  assetPrefix: process.env.NODE_ENV === 'production' ? '.' : '',
+  basePath: '',
 }
 
 module.exports = withPWA(nextConfig)
