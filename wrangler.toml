@@ -5,4 +5,6 @@ compatibility_date = "2023-12-01"
 command = "npm run build"
 
 [site]
-bucket = ".next" 
+bucket = "out"
+
+pages_build_output_dir = "out" 
