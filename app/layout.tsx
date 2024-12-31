@@ -1,11 +1,20 @@
 import './globals.css'
-import { Inter } from 'next/font/google'
+import type { Metadata } from 'next'
 
-const inter = Inter({ subsets: ['latin'] })
-
-export const metadata = {
-  title: 'スタイリッシュフォーム & PDF生成アプリ',
-  description: 'フォーム入力、PDF生成、メール共有機能を備えたアプリケーション',
+export const metadata: Metadata = {
+  title: 'スタイリッシュフォームPDFジェネレーター',
+  description: '美しいフォームからPDFを生成するアプリケーション',
+  manifest: '/manifest.json',
+  themeColor: '#000000',
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'PDF Gen'
+  },
+  formatDetection: {
+    telephone: false
+  }
 }
 
 export default function RootLayout({
@@ -15,7 +24,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body className={inter.className}>{children}</body>
+      <head>
+        <link rel="icon" href="/icons/icon.svg" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+      </head>
+      <body>{children}</body>
     </html>
   )
 }
