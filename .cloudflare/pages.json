@@ -1,0 +1,17 @@
+{
+  "buildCommand": "npm run pages:build",
+  "outputDirectory": "dist/out",
+  "nodeVersion": "18",
+  "routes": [
+    {
+      "pattern": "**/*",
+      "script": null,
+      "style": null
+    }
+  ],
+  "compatibility_flags": [],
+  "env": {
+    "NEXT_PUBLIC_ENV": "production",
+    "NEXT_TELEMETRY_DISABLED": "1"
+  }
+} 
