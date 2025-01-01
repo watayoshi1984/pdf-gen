@@ -3,6 +3,7 @@ compatibility_date = "2023-12-01"
 
 [build]
 command = "npm run build"
+pages_build_output_dir = "dist"
 
 [build.environment]
 NODE_VERSION = "18"
