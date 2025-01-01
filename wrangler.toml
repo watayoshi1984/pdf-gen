@@ -9,4 +9,4 @@ NODE_VERSION = "18"
 NODE_ENV = "production"
 
 [site]
-bucket = "dist/out" 
+bucket = "out" 
