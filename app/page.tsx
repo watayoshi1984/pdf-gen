@@ -27,19 +27,14 @@ export default function Home() {
   const closeEmail = () => setIsEmailOpen(false)
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className="min-h-screen flex flex-col bg-background">
       <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <AppBar onMenuClick={toggleSidebar} />
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-background">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <h1 className="text-2xl sm:text-3xl font-semibold text-gray-800 dark:text-white mb-6">
-              スタイリッシュフォーム & PDF生成アプリ
-            </h1>
-            <FormContent onPreview={openPreview} />
-          </div>
-        </main>
-      </div>
+      <AppBar onMenuClick={toggleSidebar} />
+      <main className="flex-1 overflow-x-hidden overflow-y-auto">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <FormContent onPreview={openPreview} />
+        </div>
+      </main>
       <PreviewDialog
         isOpen={isPreviewOpen}
         onClose={closePreview}

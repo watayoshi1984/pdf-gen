@@ -1,22 +1,20 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Star } from 'lucide-react'
-import { useToast } from '@/components/ui/use-toast'
 
 const formFields = [
-  { id: 'name', label: '名前', type: 'text' },
-  { id: 'email', label: 'メールアドレス', type: 'email' },
-  { id: 'phone', label: '電話番号', type: 'tel' },
-  { id: 'address', label: '住所', type: 'text' },
-  { id: 'birthdate', label: '生年月日', type: 'date' },
-  { id: 'occupation', label: '職業', type: 'text' },
-  { id: 'company', label: '会社名', type: 'text' },
-  { id: 'department', label: '部署', type: 'text' },
-  { id: 'position', label: '役職', type: 'text' },
+  { id: 'item1', label: '項目1', type: 'text' },
+  { id: 'item2', label: '項目2', type: 'text' },
+  { id: 'item3', label: '項目3', type: 'text' },
+  { id: 'item4', label: '項目4', type: 'text' },
+  { id: 'item5', label: '項目5', type: 'text' },
+  { id: 'item6', label: '項目6', type: 'text' },
+  { id: 'item7', label: '項目7', type: 'text' },
+  { id: 'item8', label: '項目8', type: 'text' },
+  { id: 'item9', label: '項目9', type: 'text' },
 ]
 
 interface FormContentProps {
@@ -25,13 +23,6 @@ interface FormContentProps {
 
 export function FormContent({ onPreview }: FormContentProps) {
   const [formData, setFormData] = useState<Record<string, string>>({})
-  const [isPWA, setIsPWA] = useState(false)
-  const { toast } = useToast()
-
-  useEffect(() => {
-    // PWAとして実行されているかどうかを確認
-    setIsPWA(window.matchMedia('(display-mode: standalone)').matches)
-  }, [])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target
@@ -43,76 +34,37 @@ export function FormContent({ onPreview }: FormContentProps) {
     onPreview(formData)
   }
 
-  const handleFavorite = async () => {
-    if (isPWA) {
-      toast({
-        title: "PWAとしてインストール済み",
-        description: "このアプリはすでにホーム画面に追加されています。",
-      })
-      return
-    }
-
-    if ('beforeinstallprompt' in window) {
-      // PWAインストールプロンプトを表示
-      const deferredPrompt = (window as any).deferredPrompt
-      if (deferredPrompt) {
-        deferredPrompt.prompt()
-        const { outcome } = await deferredPrompt.userChoice
-        if (outcome === 'accepted') {
-          toast({
-            title: "ホーム画面に追加しました",
-            description: "アプリがホーム画面に追加されました。",
-          })
-        }
-        (window as any).deferredPrompt = null
-      }
-    } else {
-      // ブラウザのブックマーク機能を使用
-      if (window.sidebar && window.sidebar.addPanel) {
-        // Firefox
-        window.sidebar.addPanel(document.title, window.location.href, '')
-      } else if (window.external && 'AddFavorite' in window.external) {
-        // IE
-        ;(window.external as any).AddFavorite(window.location.href, document.title)
-      } else {
-        // その他のブラウザ
-        toast({
-          title: "ブックマークに追加",
-          description: `${navigator.userAgent.includes('Mac') ? '⌘' : 'Ctrl'} + D でブックマークに追加できます。`,
-        })
-      }
-    }
-  }
-
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">フォーム入力</h2>
-        <Button
-          type="button"
-          variant="outline"
-          onClick={handleFavorite}
-          className="flex items-center gap-2"
-        >
-          <Star className="h-4 w-4" />
-          <span>{isPWA ? 'インストール済み' : 'お気に入り登録'}</span>
-        </Button>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <form onSubmit={handleSubmit} className="space-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {formFields.map((field) => (
-          <div key={field.id} className="space-y-2">
-            <Label htmlFor={field.id}>{field.label}</Label>
+          <div
+            key={field.id}
+            className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:border-primary dark:hover:border-primary transition-colors"
+          >
+            <Label
+              htmlFor={field.id}
+              className="block text-base font-medium text-gray-900 dark:text-gray-100 mb-2"
+            >
+              {field.label}
+            </Label>
             <Input
               id={field.id}
               type={field.type}
               value={formData[field.id] || ''}
               onChange={handleInputChange}
               required
+              className="w-full bg-gray-50 dark:bg-gray-900 border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-primary"
+              placeholder={`${field.label}を入力`}
             />
           </div>
         ))}
       </div>
-      <Button type="submit" className="w-full">プレビュー</Button>
+      <div className="mt-8">
+        <Button type="submit" className="w-full text-lg py-6">
+          プレビュー
+        </Button>
+      </div>
     </form>
   )
 }
