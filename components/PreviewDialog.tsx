@@ -21,6 +21,18 @@ interface PreviewDialogProps {
   onEmailClick: () => void
 }
 
+const itemLabels: Record<string, string> = {
+  item1: '項目1',
+  item2: '項目2',
+  item3: '項目3',
+  item4: '項目4',
+  item5: '項目5',
+  item6: '項目6',
+  item7: '項目7',
+  item8: '項目8',
+  item9: '項目9',
+}
+
 export function PreviewDialog({ isOpen, onClose, formData, onEmailClick }: PreviewDialogProps) {
   const [isGenerating, setIsGenerating] = useState(false)
 
@@ -54,9 +66,9 @@ export function PreviewDialog({ isOpen, onClose, formData, onEmailClick }: Previ
           <ScrollArea className="h-[60vh] rounded-md border p-4">
             <div className="space-y-4">
               {Object.entries(formData).map(([key, value]) => (
-                <div key={key} className="grid grid-cols-3 gap-4">
-                  <div className="font-medium">{key}</div>
-                  <div className="col-span-2">{value}</div>
+                <div key={key} className="grid grid-cols-3 gap-4 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <div className="font-medium text-gray-700 dark:text-gray-300">{itemLabels[key] || key}</div>
+                  <div className="col-span-2 text-gray-900 dark:text-gray-100">{value}</div>
                 </div>
               ))}
             </div>

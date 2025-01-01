@@ -1,7 +1,7 @@
 {
-  "name": "スタイリッシュフォームPDFジェネレーター",
-  "short_name": "PDF Gen",
-  "description": "美しいフォームからPDFを生成するアプリケーション",
+  "name": "入力 de PDF",
+  "short_name": "入力 de PDF",
+  "description": "フォーム入力からPDFを簡単生成",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
