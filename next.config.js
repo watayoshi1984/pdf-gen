@@ -14,7 +14,7 @@ const nextConfig = {
   distDir: 'dist',
   trailingSlash: true,
   basePath: '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/' : '',
+  assetPrefix: './',
 }
 
 module.exports = withPWA(nextConfig)
