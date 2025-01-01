@@ -3,9 +3,10 @@ compatibility_date = "2023-12-01"
 
 [build]
 command = "npm run build"
-cwd = "."
-dist = "dist"
 
 [build.environment]
 NODE_VERSION = "18"
-NODE_ENV = "production" 
+NODE_ENV = "production"
+
+[site]
+bucket = "./dist" 
