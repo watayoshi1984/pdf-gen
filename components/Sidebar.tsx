@@ -1,10 +1,41 @@
 import { X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useState } from 'react'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 interface SidebarProps {
   isOpen: boolean
   onClose: () => void
 }
+
+interface MenuItemProps {
+  label: string
+  content: string
+}
+
+const menuItems: MenuItemProps[] = [
+  {
+    label: 'お知らせ',
+    content: '最新のアップデート情報や重要なお知らせを確認できます。'
+  },
+  {
+    label: '使い方',
+    content: 'アプリケーションの基本的な使用方法や機能の説明を確認できます。'
+  },
+  {
+    label: 'よくある質問',
+    content: 'ユーザーからよく寄せられる質問と回答を確認できます。'
+  },
+  {
+    label: '問合せ',
+    content: '不明点や技術的な問題について、サポートチームへ問い合わせることができます。'
+  }
+]
 
 export function Sidebar({ isOpen, onClose }: SidebarProps) {
   return (
@@ -22,24 +53,23 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             </div>
             <div className="flex-1 overflow-auto p-4">
               <nav className="space-y-2">
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
-                  ホーム
-                </a>
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
-                  フォーム一覧
-                </a>
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
-                  設定
-                </a>
+                <TooltipProvider>
+                  {menuItems.map((item, index) => (
+                    <Tooltip key={index}>
+                      <TooltipTrigger asChild>
+                        <a
+                          href="#"
+                          className="block px-4 py-2 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+                        >
+                          {item.label}
+                        </a>
+                      </TooltipTrigger>
+                      <TooltipContent side="right" className="max-w-xs">
+                        <p>{item.content}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  ))}
+                </TooltipProvider>
               </nav>
             </div>
           </div>
